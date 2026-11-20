@@ -53,12 +53,13 @@ class Agent:
 
     @staticmethod
     def _provider_of(url):
-        for prov, marker in {"kei": "kei-inference", "openrouter": "openrouter",
+        for prov, marker in {"kei": "kei-inference", "kei_je": "jerouter",
+                             "openrouter": "openrouter",
                              "deepseek": "deepseek", "groq": "groq",
                              "openai": "api.openai",
                              "anthropic": "api.anthropic"}.items():
             if marker in url:
-                return prov
+                return "kei" if prov.startswith("kei") else prov
         return "custom"
 
     def rotate_key(self):

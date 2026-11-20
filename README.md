@@ -198,6 +198,30 @@ GitHub-dark palette presisi, bukan 8-bit. Interaksi headless via tmux:
 - Long JSON arguments can be truncated server-side → harness fallback parse +
   **hard-stop**: 2 consecutive tool failures → final recovery without tools.
 
+## UI / TUI & Wireframe
+
+TUI berbasis `prompt_toolkit` dengan fidelitas 1:1 terhadap wireframe spec `WF-01` s/d `WF-12`:
+
+- **Official Brand Mark**: Render logo glyph resolusi tinggi via RGB half-block matrix 24-bit truecolor (`#02eeff` cyan ke `#2435ae` navy) di header telemetry.
+- **4 Layar Interaktif**:
+  - `[1] Live Session`: Code Card (`internal/cache/redis.go`, sub-tabbing), Reviewer card & Dynamic live stream logs.
+  - `[2] Review and Apply`: Staged workspace diff viewer (`/diff`), toggle checkbox staging, write to disk (`/apply`).
+  - `[3] Agent Cluster`: Swarm management (Researcher, Architect, Coder, Reviewer), pause/resume per-node, inspect system prompt.
+  - `[4] Wireframe Spec`: Architectural map WF-01..12 inspector langsung di dalam CLI.
+- **Shortcut & Controls**:
+  - `1`, `2`, `3`, `4`: Pindah antar layar.
+  - `Tab`: Cycle focused agent highlight.
+  - `Esc`: Pause / Resume swarm session.
+  - `f`: Switch active file preview.
+  - `Ctrl+P`: Command palette prompt.
+
+Jalankan TUI:
+```bash
+python -m agent.tui
+# atau jalankan automated test suite 12-check wireframe
+python test_cli_wireframe.py
+```
+
 ### Fitur inti — self-improving harness
 
 | Fitur | Mekanisme |
