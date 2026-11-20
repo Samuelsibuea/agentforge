@@ -14,6 +14,7 @@ from prompt_toolkit.layout.dimension import D
 from prompt_toolkit.widgets import Frame
 from prompt_toolkit.styles import Style
 from prompt_toolkit.buffer import Buffer
+from prompt_toolkit.completion import WordCompleter
 
 from agent.core import Agent
 
@@ -238,7 +239,11 @@ class TUI:
         # Test output buffer for /test command
         self.test_output = []
 
-        self.input_buf = Buffer(multiline=False)
+        completer = WordCompleter([
+            "/help", "/mode", "/skill", "/tool", "/checkpoint", "/replay",
+            "/diff", "/apply", "/test", "/agents", "/clear", "/pause", "/quit"
+        ], ignore_case=True, match_middle=True)
+        self.input_buf = Buffer(multiline=False, completer=completer, complete_while_typing=True)
         self.app = None
 
     # ── FRAGMENT: HEADER & TELEMETRY (WF-01) ───────────

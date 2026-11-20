@@ -13,6 +13,8 @@ from agent.compaction import ContextCompactor
 from agent.subagent import SubagentSwarm, make_subagent_tool
 from agent.modes import ModeEngine, encode_image_to_data_uri
 from agent.checkpoint import CheckpointEngine
+from agent.self_heal import SelfHealingEngine
+from agent.visualizer import export_session_replay_html
 
 WIB = ZoneInfo("Asia/Jakarta")
 
@@ -42,6 +44,8 @@ class Agent:
         self.modes = ModeEngine(cfg.get("mode", "auto"))
         # --- workspace checkpoints & undo ---
         self.checkpoints = CheckpointEngine(self.workspace)
+        # --- autonomous self-healing ---
+        self.healer = SelfHealingEngine(self)
         self.hooks = HookEngine(cfg.get("hooks", {}))
         self.rules = RuleEngine(cfg.get("stream_rules", []))
         self.veritas = Veritas(cfg.get("veritas", {}))

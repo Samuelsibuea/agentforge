@@ -40,6 +40,9 @@ jobs:
     - name: Run Fallback Chain & Budget Gate Tests
       run: python test_chain_budget.py
 
+    - name: Run Self-Healing & Visualizer Replay Tests
+      run: python test_selfheal_replay.py
+
     - name: Run Checkpoint & Instant Rollback Tests
       run: python test_checkpoint.py
 

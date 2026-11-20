@@ -290,6 +290,14 @@ def cmd_mode(agent, args):
     return msg
 
 
+def cmd_replay(agent, args):
+    """/replay [out_path] — export interaktif HTML session replay."""
+    from agent.visualizer import export_session_replay_html
+    out = args[0] if args else "workspace/session_replay.html"
+    res = export_session_replay_html(agent, out)
+    return f"[✓] Session Replay HTML berhasil diekspor ke: {res}"
+
+
 def cmd_checkpoint(agent, args):
     """/checkpoint [create <label>|rollback [id]|ls] — kelola snapshot & undo workspace."""
     if not hasattr(agent, "checkpoints") or not agent.checkpoints:
@@ -395,7 +403,8 @@ COMMANDS = {
     "tool":    {"desc": "ls | create <nama> <code> — user custom tool live", "run": cmd_tool},
     "mode":       {"desc": "[auto|plan|fast|reasoning|vision|workflow] — ganti execution mode", "run": cmd_mode},
     "checkpoint": {"desc": "create <label> | rollback | ls — snapshot workspace & undo", "run": cmd_checkpoint},
-    "clear":   {"desc": "bersihkan memory sesi", "run": cmd_clear},
+    "replay":     {"desc": "[out.html] — export session telemetry ke web HTML interaktif", "run": cmd_replay},
+    "clear":      {"desc": "bersihkan memory sesi", "run": cmd_clear},
     "history": {"desc": "8 run terakhir dari runs.jsonl", "run": cmd_history},
     "status":  {"desc": "model, endpoint, memory, artefak", "run": cmd_status},
     "init":    {"desc": "scan repo → generate AGENTS.md memory file", "run": cmd_init},

@@ -109,6 +109,9 @@ administration, no credential access, no exfiltration, no download-and-execute.
 ## Roadmap
  
  - [x] Interactive CLI upgrade: prompt-toolkit UI with history + autocomplete (shipped: banner, statusline, 8 slash commands, stderr progress, cancellation)
+ - [x] Autonomous Self-Healing Diagnostic Engine (`agent/self_heal.py`)
+ - [x] Interactive HTML Session Replay Visualizer (`/replay`, `agent/visualizer.py`)
+ - [x] Slash-Command Dynamic WordCompleter in TUI/CLI (`agent/tui.py`)
  - [x] Execution Modes Suite: `plan`, `auto`, `fast` (flash), `reasoning` (thinking), `vision`, `workflow`
  - [x] Workspace Checkpoint & Instant Rollback (`/checkpoint create`, `/checkpoint rollback`)
  - [x] Model Context Protocol (MCP) Client stdio JSON-RPC 2.0 integration
