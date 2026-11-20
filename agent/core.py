@@ -12,6 +12,7 @@ from agent.mcp import MCPRegistry
 from agent.compaction import ContextCompactor
 from agent.subagent import SubagentSwarm, make_subagent_tool
 from agent.modes import ModeEngine, encode_image_to_data_uri
+from agent.checkpoint import CheckpointEngine
 
 WIB = ZoneInfo("Asia/Jakarta")
 
@@ -39,6 +40,8 @@ class Agent:
         self.auto_approve = cfg.get("auto_approve", False)
         # --- execution modes ---
         self.modes = ModeEngine(cfg.get("mode", "auto"))
+        # --- workspace checkpoints & undo ---
+        self.checkpoints = CheckpointEngine(self.workspace)
         self.hooks = HookEngine(cfg.get("hooks", {}))
         self.rules = RuleEngine(cfg.get("stream_rules", []))
         self.veritas = Veritas(cfg.get("veritas", {}))

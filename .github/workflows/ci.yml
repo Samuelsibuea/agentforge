@@ -40,6 +40,9 @@ jobs:
     - name: Run Fallback Chain & Budget Gate Tests
       run: python test_chain_budget.py
 
+    - name: Run Checkpoint & Instant Rollback Tests
+      run: python test_checkpoint.py
+
     - name: Run Execution Modes Tests
       run: python test_modes.py
 

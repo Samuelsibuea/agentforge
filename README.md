@@ -242,6 +242,7 @@ python test_cli_wireframe.py
 | Stream rules | regex pada content → inject reminder |
 | Hashline edit | `file_patch(path, old_hash, new_content)` — stale anchor reject |
 | **Veritas layer** | gamechanger — harness bikin + jalan kan kode verifikasi tiap tool call |
+| **Workspace Checkpoint & Undo** | Atomic snapshot `.checkpoints/` + 1-command rollback `/checkpoint rollback` |
 | **Execution Modes Engine** | 6 mode: `auto`, `plan`, `fast`, `reasoning` (thinking), `vision`, `workflow` |
 | **Model Context Protocol (MCP)** | JSON-RPC 2.0 stdio client — auto-discovery & register external tool servers |
 | **Subagent Swarm (`delegate_task`)** | Delegasi paralel/sekuensial 4 role (researcher, architect, coder, reviewer) |

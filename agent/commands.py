@@ -290,6 +290,34 @@ def cmd_mode(agent, args):
     return msg
 
 
+def cmd_checkpoint(agent, args):
+    """/checkpoint [create <label>|rollback [id]|ls] — kelola snapshot & undo workspace."""
+    if not hasattr(agent, "checkpoints") or not agent.checkpoints:
+        from agent.checkpoint import CheckpointEngine
+        agent.checkpoints = CheckpointEngine(agent.workspace)
+
+    if not args or args[0] == "ls":
+        snaps = agent.checkpoints.list_snapshots()
+        if not snaps:
+            return "Belum ada snapshot checkpoint."
+        return "Daftar Snapshots:\n" + "\n".join(f"• {s['id']} (label: {s['label']})" for s in snaps)
+
+    sub = args[0]
+    if sub == "create":
+        label = args[1] if len(args) > 1 else "manual"
+        res = agent.checkpoints.create_snapshot(label)
+        return f"[✓] Checkpoint snapshot dibuat: {res['id']} ({res['files_saved']} files tersimpan)"
+
+    if sub in ("rollback", "undo"):
+        ckpt_id = args[1] if len(args) > 1 else None
+        res = agent.checkpoints.rollback(ckpt_id)
+        if res.get("ok"):
+            return f"[✓] Workspace berhasil di-rollback ke {res['restored_from']} ({res['files_restored']} files dipulihkan)!"
+        return f"[!] Rollback gagal: {res.get('error')}"
+
+    return "usage: /checkpoint [create <label> | rollback [id] | ls]"
+
+
 def cmd_tool(agent, args):
     """/tool create <nama> <code> | /tool ls — kelola custom user tool."""
     os.makedirs("tools/custom", exist_ok=True)
@@ -365,7 +393,8 @@ COMMANDS = {
     "skills":  {"desc": "daftar skill + loader", "run": cmd_skills},
     "skill":   {"desc": "<nama> | create <nama> <prompt> | catalog | install — kelola skill", "run": cmd_skill_manage},
     "tool":    {"desc": "ls | create <nama> <code> — user custom tool live", "run": cmd_tool},
-    "mode":    {"desc": "[auto|plan|fast|reasoning|vision|workflow] — ganti execution mode", "run": cmd_mode},
+    "mode":       {"desc": "[auto|plan|fast|reasoning|vision|workflow] — ganti execution mode", "run": cmd_mode},
+    "checkpoint": {"desc": "create <label> | rollback | ls — snapshot workspace & undo", "run": cmd_checkpoint},
     "clear":   {"desc": "bersihkan memory sesi", "run": cmd_clear},
     "history": {"desc": "8 run terakhir dari runs.jsonl", "run": cmd_history},
     "status":  {"desc": "model, endpoint, memory, artefak", "run": cmd_status},
