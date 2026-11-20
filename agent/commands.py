@@ -275,11 +275,81 @@ def cmd_learn(agent, args):
     return f"skill dipelajari → {path} (sequence: {' → '.join(seq)})" if path else "gagal ekstrak"
 
 
+def cmd_tool(agent, args):
+    """/tool create <nama> <code> | /tool ls — kelola custom user tool."""
+    os.makedirs("tools/custom", exist_ok=True)
+    if not args or args[0] == "ls":
+        loaded = list(agent.router.tools.keys())
+        custom_files = [f for f in os.listdir("tools/custom") if f.endswith(".py")]
+        return f"Loaded tools ({len(loaded)}): {', '.join(loaded)}\nCustom files: {', '.join(custom_files) or 'none'}"
+    if args[0] == "create":
+        if len(args) < 3:
+            return "usage: /tool create <name> <python_code>"
+        name = args[1].replace(".py", "")
+        code = " ".join(args[2:])
+        fpath = f"tools/custom/{name}.py"
+        with open(fpath, "w", encoding="utf-8") as f:
+            f.write(code + "\n")
+        reloaded = agent.router.reload_custom_tools("tools/custom")
+        return f"[✓] Tool '{name}' berhasil dibuat di {fpath} dan aktif live! ({len(reloaded)} tools)"
+    return "usage: /tool ls | /tool create <name> <code>"
+
+
+def cmd_skill_manage(agent, args):
+    """/skill create <nama> <prompt> | /skill ls | /skill catalog — kelola skill kustom user."""
+    os.makedirs("skills", exist_ok=True)
+    if not args or args[0] == "ls":
+        skills = [f[:-3] for f in os.listdir("skills") if f.endswith(".md")]
+        return f"Daftar skills: {', '.join(skills)} (aktif: {getattr(agent, 'skill', 'research')})"
+    if args[0] == "catalog":
+        return (
+            "Ecosystem Skill Marketplace:\n"
+            "• devops        — CI/CD pipeline, Docker, and Kubernetes deployment specialist\n"
+            "• pentest       — Ethical web security auditor & OWASP vulnerability inspector\n"
+            "• data-analyst  — Pandas, NumPy, statistical aggregation, and chart visualizer\n"
+            "Gunakan: /skill install <nama>"
+        )
+    if args[0] == "install":
+        if len(args) < 2:
+            return "usage: /skill install <nama_catalog>"
+        preset = args[1]
+        presets = {
+            "devops": ("DevOps Specialist", "Expert in containerization, CI/CD runners, and infrastructure verification."),
+            "pentest": ("Security Auditor", "Audit source code, check for hardcoded secrets, input sanitization, and SQLi."),
+            "data-analyst": ("Data Analyst", "Data cleaning, statistical synthesis, and structured tabular presentation.")
+        }
+        if preset not in presets:
+            return f"Preset '{preset}' tidak ditemukan. Cek /skill catalog"
+        title, prompt = presets[preset]
+        fpath = f"skills/{preset}.md"
+        with open(fpath, "w", encoding="utf-8") as f:
+            f.write(f"---\nname: {preset}\ntitle: {title}\n---\n{prompt}\n")
+        return f"[✓] Skill '{preset}' terinstall dari catalog ke {fpath}."
+    if args[0] == "create":
+        if len(args) < 3:
+            return "usage: /skill create <name> <instruksi_dan_persona>"
+        name = args[1].replace(".md", "")
+        body = " ".join(args[2:])
+        fpath = f"skills/{name}.md"
+        with open(fpath, "w", encoding="utf-8") as f:
+            f.write(f"---\nname: {name}\ncustom: true\n---\n{body}\n")
+        agent.skill = name
+        return f"[✓] Skill '{name}' berhasil dibuat di {fpath} dan langsung aktif!"
+    # fallback to switch skill
+    name = args[0]
+    p = f"skills/{name}.md"
+    if os.path.exists(p):
+        agent.skill = name
+        return f"skill aktif: {name}"
+    return f"skill '{name}' tidak ditemukan di skills/"
+
+
 COMMANDS = {
     "help":    {"desc": "daftar perintah + signature", "run": cmd_help},
     "doctor":  {"desc": "cek config, endpoint, skills, tools, log", "run": cmd_doctor},
     "skills":  {"desc": "daftar skill + loader", "run": cmd_skills},
-    "skill":   {"desc": "<nama> — ganti skill aktif", "run": cmd_skill},
+    "skill":   {"desc": "<nama> | create <nama> <prompt> | catalog | install — kelola skill", "run": cmd_skill_manage},
+    "tool":    {"desc": "ls | create <nama> <code> — user custom tool live", "run": cmd_tool},
     "clear":   {"desc": "bersihkan memory sesi", "run": cmd_clear},
     "history": {"desc": "8 run terakhir dari runs.jsonl", "run": cmd_history},
     "status":  {"desc": "model, endpoint, memory, artefak", "run": cmd_status},

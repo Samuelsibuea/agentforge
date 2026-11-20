@@ -9,8 +9,10 @@
 </p>
 
 ![python](https://img.shields.io/badge/python-3.11+-3670A0)
-![llm](https://img.shields.io/badge/LLM-Inference%20API-2563EB)
-![tools](https://img.shields.io/badge/tools-7%20native-0E9F6E)
+[![AgentForge CI](https://github.com/Samuelsibuea/agentforge/actions/workflows/ci.yml/badge.svg)](https://github.com/Samuelsibuea/agentforge/actions/workflows/ci.yml)
+[![Benchmark](https://img.shields.io/badge/Benchmark-5%2F5_PASS-success.svg)](#benchmark)
+[![MCP Ready](https://img.shields.io/badge/MCP_Protocol-Ready-blue.svg)](agent/mcp.py)
+![tools](https://img.shields.io/badge/tools-7%20native%20%2B%20MCP%20%2B%20Custom-0E9F6E)
 ![deps](https://img.shields.io/badge/deps-1%20%28httpx%29-9333EA)
 ![status](https://img.shields.io/badge/status-stable-brightgreen)
 
@@ -242,6 +244,10 @@ python test_cli_wireframe.py
 | **Veritas layer** | gamechanger — harness bikin + jalan kan kode verifikasi tiap tool call |
 | **Model Context Protocol (MCP)** | JSON-RPC 2.0 stdio client — auto-discovery & register external tool servers |
 | **Subagent Swarm (`delegate_task`)** | Delegasi paralel/sekuensial 4 role (researcher, architect, coder, reviewer) |
+| **User Custom Tools (`/tool create`)** | Buat tool Python kustom secara instan dengan auto-generated schema & hot-reload |
+| **User Custom Skills (`/skill create`)** | Buat persona & skill domain baru tanpa batas prompt langsung aktif |
+| **Skill Marketplace (`/skill catalog`)** | Katalog preset skill siap install (devops, pentest, data-analyst) |
+| **GitHub CI Workflow** | Automasi GitHub Actions `.github/workflows/ci.yml` + benchmark evaluator |
 | **Context Compactor** | Auto-prune context window saat mendekati budget, pertahankan initial goal & tail |
 | **Benchmark Suite (`benchmark.py`)** | Evaluasi 5 pilar arsitektur otomatis dengan laporan latency & presisi |
 | Serve mode | `python -m agent.serve` → HTTP + SSE, POST /v1/chat |

@@ -1,0 +1,47 @@
+name: AgentForge CI & Architectural Benchmark
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install httpx prompt_toolkit
+
+    - name: Initialize mock configuration for testing
+      run: |
+        cp config.example.json config.json
+
+    - name: Run MCP Protocol Tests
+      run: python test_mcp.py
+
+    - name: Run Subagent & Context Compaction Tests
+      run: python test_subagent_compaction.py
+
+    - name: Run CLI & Wireframe 1:1 Tests
+      run: python test_cli_wireframe.py
+
+    - name: Run Fallback Chain & Budget Gate Tests
+      run: python test_chain_budget.py
+
+    - name: Run Serve & BYOK Keyring Tests
+      run: python test_serve_byok.py
+
+    - name: Execute Architectural Benchmark Suite
+      run: python benchmark.py

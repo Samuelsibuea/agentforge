@@ -111,5 +111,8 @@ administration, no credential access, no exfiltration, no download-and-execute.
  - [x] Interactive CLI upgrade: prompt-toolkit UI with history + autocomplete (shipped: banner, statusline, 8 slash commands, stderr progress, cancellation)
  - [x] Model Context Protocol (MCP) Client stdio JSON-RPC 2.0 integration
  - [x] Subagent Swarm Delegation runtime (`delegate_task`)
+ - [x] User-Created Custom Tools & Dynamic Loader (`/tool create`)
+ - [x] User-Created Custom Skills & Ecosystem Marketplace (`/skill create`, `/skill catalog`)
+ - [x] GitHub Automation Workflow (`workflow_github.py`) & CI/CD Action (`.github/workflows/ci.yml`)
  - [x] Context Compaction Window Pruner
  - [x] Benchmark Suite & Evaluation Harness (`benchmark.py`)

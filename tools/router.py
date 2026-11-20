@@ -72,6 +72,20 @@ class ToolRouter:
                    calc.calculate, patch.file_patch):
             self.register(fn)
 
+        # User-created custom tools auto-discovery
+        from tools.custom_loader import load_custom_tools_from_dir
+        custom_tools = load_custom_tools_from_dir("tools/custom")
+        for cfn in custom_tools.values():
+            self.register(cfn)
+
+    def reload_custom_tools(self, custom_dir: str = "tools/custom"):
+        """Hot-reloads user-created custom tools without restart."""
+        from tools.custom_loader import load_custom_tools_from_dir
+        custom_tools = load_custom_tools_from_dir(custom_dir)
+        for cfn in custom_tools.values():
+            self.register(cfn)
+        return list(custom_tools.keys())
+
     def register(self, fn):
         name = fn.__name__
         mcp_schema = getattr(fn, "_mcp_schema", None)
