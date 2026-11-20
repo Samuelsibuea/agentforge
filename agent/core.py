@@ -8,6 +8,7 @@ from agent.hooks import HookEngine
 from agent.rules import RuleEngine
 from agent.veritas import Veritas
 from agent.keyring import KeyRing
+from agent.mcp import MCPRegistry
 
 WIB = ZoneInfo("Asia/Jakarta")
 
@@ -39,6 +40,11 @@ class Agent:
         self.keyring = KeyRing(self.workspace)
         self.run_stats = {"tool_calls": 0, "hooks_fired": 0, "rules_fired": 0,
                           "veratas_checks": 0}
+        # --- MCP (Model Context Protocol) ---
+        self.mcp = MCPRegistry(cfg.get("mcpServers", {}))
+        if cfg.get("mcpServers"):
+            self.mcp.start_all(strict=False)
+            self.mcp.register_into_router(self.router)
         # --- BYOK (credential pool) ---
         self.active_key_name, self.active_key = self._resolve_key()
 

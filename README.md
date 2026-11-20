@@ -205,6 +205,7 @@ TUI berbasis `prompt_toolkit` dengan fidelitas 1:1 terhadap wireframe spec `WF-0
 ![AgentForge CLI Live Session](assets/cli-screenshot-live.png)
 
 - **Official Brand Mark**: Render logo glyph resolusi tinggi via RGB half-block matrix 24-bit truecolor (`#02eeff` cyan ke `#2435ae` navy) di header telemetry.
+- **Model Context Protocol (MCP)**: Dukungan penuh stdio client JSON-RPC 2.0 (`agent/mcp.py`) untuk menghubungkan MCP servers eksternal (auto-discovery skema tool & auto-register ke router).
 - **4 Layar Interaktif**:
   - `[1] Live Session`: Code Card (`internal/cache/redis.go`, sub-tabbing), Reviewer card & Dynamic live stream logs.
   - `[2] Review and Apply`: Staged workspace diff viewer (`/diff`), toggle checkbox staging, write to disk (`/apply`).
@@ -239,6 +240,7 @@ python test_cli_wireframe.py
 | Stream rules | regex pada content → inject reminder |
 | Hashline edit | `file_patch(path, old_hash, new_content)` — stale anchor reject |
 | **Veritas layer** | gamechanger — harness bikin + jalan kan kode verifikasi tiap tool call |
+| **Model Context Protocol (MCP)** | JSON-RPC 2.0 stdio client — auto-discovery & register external tool servers |
 | Serve mode | `python -m agent.serve` → HTTP + SSE, POST /v1/chat |
 | Session export/import | `/export` `/import` → JSON session |
 | Stats | `/stats` — tool use, quota, veritas |

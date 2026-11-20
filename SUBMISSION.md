@@ -107,8 +107,9 @@ through public keyless APIs (HN Algolia, GitHub, Wikipedia). No remote
 administration, no credential access, no exfiltration, no download-and-execute.
 
 ## Roadmap
-
-- [x] Interactive CLI upgrade: prompt-toolkit UI with history + autocomplete (shipped: banner, statusline, 8 slash commands, stderr progress, cancellation)
-- Session persistence + resume (`/resume <id>`)
-- Headless mode with JSON event streaming for automation
-- TOON-style structured output encoding (REA toonOutput.ts pattern)
+ 
+ - [x] Interactive CLI upgrade: prompt-toolkit UI with history + autocomplete (shipped: banner, statusline, 8 slash commands, stderr progress, cancellation)
++- [x] Model Context Protocol (MCP) Client stdio JSON-RPC 2.0 integration
+ - [ ] Subagent Swarm Delegation runtime (`delegate_task`)
+ - [ ] Context Compaction Window Pruner
+ - [ ] Benchmark Suite & Evaluation Harness

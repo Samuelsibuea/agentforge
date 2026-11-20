@@ -74,10 +74,18 @@ class ToolRouter:
 
     def register(self, fn):
         name = fn.__name__
+        mcp_schema = getattr(fn, "_mcp_schema", None)
+        if mcp_schema:
+            schema_params = mcp_schema["function"].get("parameters", {})
+            desc = mcp_schema["function"].get("description", fn.__doc__ or "")
+        else:
+            schema_params = SCHEMAS[name]
+            desc = (fn.__doc__ or "").strip()
+
         self.tools[name] = {
             "name": name,
-            "description": fn.__doc__.strip(),
-            "parameters": SCHEMAS[name],
+            "description": desc,
+            "parameters": schema_params,
             "fn": fn,
         }
         self.used[name] = 0
