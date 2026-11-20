@@ -242,6 +242,7 @@ python test_cli_wireframe.py
 | Stream rules | regex pada content → inject reminder |
 | Hashline edit | `file_patch(path, old_hash, new_content)` — stale anchor reject |
 | **Veritas layer** | gamechanger — harness bikin + jalan kan kode verifikasi tiap tool call |
+| **Self-Evaluation Arena** | Skoring otomatis 0-100 `agent/eval_arena.py` across 4 pilar (Factuality, Constraints, Precision, Conciseness) via `/eval` |
 | **Autonomous Self-Healing** | Parser traceback `agent/self_heal.py` — deteksi frame, baris, tipe error & auto-diagnose |
 | **Session Replay HTML** | Export log percakapan & trace Veritas ke file HTML statis interaktif (`/replay`) |
 | **Interactive Autocomplete** | `prompt_toolkit` WordCompleter live suggestions untuk seluruh slash commands |

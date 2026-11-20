@@ -290,6 +290,30 @@ def cmd_mode(agent, args):
     return msg
 
 
+def cmd_eval(agent, args):
+    """/eval — jalankan self-evaluation arena scoring terhadap run terakhir."""
+    if not hasattr(agent, "arena") or not agent.arena:
+        from agent.eval_arena import EvalArena
+        agent.arena = EvalArena(agent)
+    task = agent.memory[0]["content"] if getattr(agent, "memory", None) else "General Task"
+    answer = agent.run_log[-1].get("result", "") if getattr(agent, "run_log", None) else "No output"
+    res = agent.arena.evaluate_run(task, answer, getattr(agent, "run_log", []))
+    bd = res["breakdown"]
+    return (
+        f"====================================================\n"
+        f"  AGENTFORGE SELF-EVALUATION ARENA SCORE\n"
+        f"====================================================\n"
+        f"Total Score : {res['total_score']} / 100\n"
+        f"Grade       : {res['grade']}\n"
+        f"Breakdown   :\n"
+        f"  • Factuality & Veritas      : {bd['factuality_veritas']} / 25\n"
+        f"  • Constraint Adherence      : {bd['constraint_adherence']} / 25\n"
+        f"  • Tool Precision            : {bd['tool_precision']} / 25\n"
+        f"  • Conciseness & Density     : {bd['conciseness']} / 25\n"
+        f"===================================================="
+    )
+
+
 def cmd_replay(agent, args):
     """/replay [out_path] — export interaktif HTML session replay."""
     from agent.visualizer import export_session_replay_html
@@ -404,6 +428,7 @@ COMMANDS = {
     "mode":       {"desc": "[auto|plan|fast|reasoning|vision|workflow] — ganti execution mode", "run": cmd_mode},
     "checkpoint": {"desc": "create <label> | rollback | ls — snapshot workspace & undo", "run": cmd_checkpoint},
     "replay":     {"desc": "[out.html] — export session telemetry ke web HTML interaktif", "run": cmd_replay},
+    "eval":       {"desc": "evaluasi kualitas run (0-100 score & 4 pilar arena)", "run": cmd_eval},
     "clear":      {"desc": "bersihkan memory sesi", "run": cmd_clear},
     "history": {"desc": "8 run terakhir dari runs.jsonl", "run": cmd_history},
     "status":  {"desc": "model, endpoint, memory, artefak", "run": cmd_status},

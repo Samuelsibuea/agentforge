@@ -15,6 +15,7 @@ from agent.modes import ModeEngine, encode_image_to_data_uri
 from agent.checkpoint import CheckpointEngine
 from agent.self_heal import SelfHealingEngine
 from agent.visualizer import export_session_replay_html
+from agent.eval_arena import EvalArena
 
 WIB = ZoneInfo("Asia/Jakarta")
 
@@ -46,6 +47,8 @@ class Agent:
         self.checkpoints = CheckpointEngine(self.workspace)
         # --- autonomous self-healing ---
         self.healer = SelfHealingEngine(self)
+        # --- autonomous self-eval arena ---
+        self.arena = EvalArena(self)
         self.hooks = HookEngine(cfg.get("hooks", {}))
         self.rules = RuleEngine(cfg.get("stream_rules", []))
         self.veritas = Veritas(cfg.get("veritas", {}))
