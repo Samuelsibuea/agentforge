@@ -9,6 +9,8 @@ from agent.rules import RuleEngine
 from agent.veritas import Veritas
 from agent.keyring import KeyRing
 from agent.mcp import MCPRegistry
+from agent.compaction import ContextCompactor
+from agent.subagent import SubagentSwarm, make_subagent_tool
 
 WIB = ZoneInfo("Asia/Jakarta")
 
@@ -45,6 +47,10 @@ class Agent:
         if cfg.get("mcpServers"):
             self.mcp.start_all(strict=False)
             self.mcp.register_into_router(self.router)
+        # --- Context Compaction & Subagent Swarm ---
+        self.compactor = ContextCompactor(token_threshold=int(cfg.get("compaction_threshold", 40_000)))
+        self.swarm = SubagentSwarm(self)
+        self.router.register(make_subagent_tool(self.swarm))
         # --- BYOK (credential pool) ---
         self.active_key_name, self.active_key = self._resolve_key()
 
@@ -198,6 +204,11 @@ class Agent:
         last_content = ""
         consec_fail = 0
         for i in range(self.max_turns):
+            # context compaction: pangkas riwayat lama bila melebihi threshold
+            if hasattr(self, "compactor") and self.compactor:
+                self.memory, comp_stats = self.compactor.compact(self.memory)
+                if comp_stats.get("compacted"):
+                    trace.append({"turn": i, "type": "context_compaction", **comp_stats})
             # budget gate: habis → final sekarang
             if self._budget_left() <= 0:
                 trace.append({"turn": i, "type": "budget_stop",

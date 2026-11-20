@@ -241,6 +241,9 @@ python test_cli_wireframe.py
 | Hashline edit | `file_patch(path, old_hash, new_content)` — stale anchor reject |
 | **Veritas layer** | gamechanger — harness bikin + jalan kan kode verifikasi tiap tool call |
 | **Model Context Protocol (MCP)** | JSON-RPC 2.0 stdio client — auto-discovery & register external tool servers |
+| **Subagent Swarm (`delegate_task`)** | Delegasi paralel/sekuensial 4 role (researcher, architect, coder, reviewer) |
+| **Context Compactor** | Auto-prune context window saat mendekati budget, pertahankan initial goal & tail |
+| **Benchmark Suite (`benchmark.py`)** | Evaluasi 5 pilar arsitektur otomatis dengan laporan latency & presisi |
 | Serve mode | `python -m agent.serve` → HTTP + SSE, POST /v1/chat |
 | Session export/import | `/export` `/import` → JSON session |
 | Stats | `/stats` — tool use, quota, veritas |

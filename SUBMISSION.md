@@ -109,7 +109,7 @@ administration, no credential access, no exfiltration, no download-and-execute.
 ## Roadmap
  
  - [x] Interactive CLI upgrade: prompt-toolkit UI with history + autocomplete (shipped: banner, statusline, 8 slash commands, stderr progress, cancellation)
-+- [x] Model Context Protocol (MCP) Client stdio JSON-RPC 2.0 integration
- - [ ] Subagent Swarm Delegation runtime (`delegate_task`)
- - [ ] Context Compaction Window Pruner
- - [ ] Benchmark Suite & Evaluation Harness
+ - [x] Model Context Protocol (MCP) Client stdio JSON-RPC 2.0 integration
+ - [x] Subagent Swarm Delegation runtime (`delegate_task`)
+ - [x] Context Compaction Window Pruner
+ - [x] Benchmark Suite & Evaluation Harness (`benchmark.py`)
