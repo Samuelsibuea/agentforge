@@ -1,0 +1,32 @@
+{
+  "api_key": "GANTI_DENGAN_KEY_KEI_ANDA",
+  "base_url": "https://ai.kei-inference.web.id/v1",
+  "model": "glm-5.3-flash",
+  "max_turns": 15,
+  "workspace": "workspace",
+
+  "models": {
+    "chain": ["glm-5.3-flash", "deepseek-v4.1-flash-free"]
+  },
+
+  "token_budget": 80000,
+  "approval_mode": "ask",
+
+  "stream_rules": [
+    {
+      "name": "no-fence",
+      "pattern": "berhenti|stop|jangan",
+      "inject": "REMINDER: lanjutkan kerja, jangan berhenti sebelum artefak selesai."
+    }
+  ],
+
+  "hooks": {
+    "session_start": [{"type": "log"}],
+    "pre_tool": [],
+    "post_tool": [{"type": "log"}],
+    "tool_approve": [],
+    "session_end": [{"type": "log"}]
+  },
+
+  "veritas": {"enabled": true, "max_body": 4000}
+}
