@@ -202,6 +202,8 @@ GitHub-dark palette presisi, bukan 8-bit. Interaksi headless via tmux:
 
 TUI berbasis `prompt_toolkit` dengan fidelitas 1:1 terhadap wireframe spec `WF-01` s/d `WF-12`:
 
+![AgentForge CLI Live Session](assets/cli-screenshot-live.png)
+
 - **Official Brand Mark**: Render logo glyph resolusi tinggi via RGB half-block matrix 24-bit truecolor (`#02eeff` cyan ke `#2435ae` navy) di header telemetry.
 - **4 Layar Interaktif**:
   - `[1] Live Session`: Code Card (`internal/cache/redis.go`, sub-tabbing), Reviewer card & Dynamic live stream logs.
@@ -214,6 +216,10 @@ TUI berbasis `prompt_toolkit` dengan fidelitas 1:1 terhadap wireframe spec `WF-0
   - `Esc`: Pause / Resume swarm session.
   - `f`: Switch active file preview.
   - `Ctrl+P`: Command palette prompt.
+
+Screenshots layar lainnya:
+- [Review and Apply Screen](assets/cli-screenshot-review.png)
+- [Agent Cluster Swarm Screen](assets/cli-screenshot-cluster.png)
 
 Jalankan TUI:
 ```bash
