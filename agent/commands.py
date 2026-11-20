@@ -275,6 +275,21 @@ def cmd_learn(agent, args):
     return f"skill dipelajari → {path} (sequence: {' → '.join(seq)})" if path else "gagal ekstrak"
 
 
+def cmd_mode(agent, args):
+    """/mode [auto|plan|fast|reasoning|vision|workflow] — switch execution mode."""
+    if not hasattr(agent, "modes") or not agent.modes:
+        from agent.modes import ModeEngine
+        agent.modes = ModeEngine()
+    if not args:
+        return agent.modes.list_modes() + "\n\nGunakan: /mode <nama_mode>"
+    ok, msg = agent.modes.set_mode(args[0])
+    # sync approval mode from mode spec
+    if ok:
+        spec = agent.modes.get_mode_spec()
+        agent.approval_mode = spec.get("approval", agent.approval_mode)
+    return msg
+
+
 def cmd_tool(agent, args):
     """/tool create <nama> <code> | /tool ls — kelola custom user tool."""
     os.makedirs("tools/custom", exist_ok=True)
@@ -350,6 +365,7 @@ COMMANDS = {
     "skills":  {"desc": "daftar skill + loader", "run": cmd_skills},
     "skill":   {"desc": "<nama> | create <nama> <prompt> | catalog | install — kelola skill", "run": cmd_skill_manage},
     "tool":    {"desc": "ls | create <nama> <code> — user custom tool live", "run": cmd_tool},
+    "mode":    {"desc": "[auto|plan|fast|reasoning|vision|workflow] — ganti execution mode", "run": cmd_mode},
     "clear":   {"desc": "bersihkan memory sesi", "run": cmd_clear},
     "history": {"desc": "8 run terakhir dari runs.jsonl", "run": cmd_history},
     "status":  {"desc": "model, endpoint, memory, artefak", "run": cmd_status},

@@ -242,6 +242,7 @@ python test_cli_wireframe.py
 | Stream rules | regex pada content → inject reminder |
 | Hashline edit | `file_patch(path, old_hash, new_content)` — stale anchor reject |
 | **Veritas layer** | gamechanger — harness bikin + jalan kan kode verifikasi tiap tool call |
+| **Execution Modes Engine** | 6 mode: `auto`, `plan`, `fast`, `reasoning` (thinking), `vision`, `workflow` |
 | **Model Context Protocol (MCP)** | JSON-RPC 2.0 stdio client — auto-discovery & register external tool servers |
 | **Subagent Swarm (`delegate_task`)** | Delegasi paralel/sekuensial 4 role (researcher, architect, coder, reviewer) |
 | **User Custom Tools (`/tool create`)** | Buat tool Python kustom secara instan dengan auto-generated schema & hot-reload |

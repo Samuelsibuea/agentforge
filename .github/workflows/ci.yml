@@ -40,6 +40,12 @@ jobs:
     - name: Run Fallback Chain & Budget Gate Tests
       run: python test_chain_budget.py
 
+    - name: Run Execution Modes Tests
+      run: python test_modes.py
+
+    - name: Run User Extensibility Tests
+      run: python test_user_extensibility.py
+
     - name: Run Serve & BYOK Keyring Tests
       run: python test_serve_byok.py
 

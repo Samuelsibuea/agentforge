@@ -109,6 +109,7 @@ administration, no credential access, no exfiltration, no download-and-execute.
 ## Roadmap
  
  - [x] Interactive CLI upgrade: prompt-toolkit UI with history + autocomplete (shipped: banner, statusline, 8 slash commands, stderr progress, cancellation)
+ - [x] Execution Modes Suite: `plan`, `auto`, `fast` (flash), `reasoning` (thinking), `vision`, `workflow`
  - [x] Model Context Protocol (MCP) Client stdio JSON-RPC 2.0 integration
  - [x] Subagent Swarm Delegation runtime (`delegate_task`)
  - [x] User-Created Custom Tools & Dynamic Loader (`/tool create`)

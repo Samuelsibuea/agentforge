@@ -11,6 +11,7 @@ from agent.keyring import KeyRing
 from agent.mcp import MCPRegistry
 from agent.compaction import ContextCompactor
 from agent.subagent import SubagentSwarm, make_subagent_tool
+from agent.modes import ModeEngine, encode_image_to_data_uri
 
 WIB = ZoneInfo("Asia/Jakarta")
 
@@ -36,6 +37,8 @@ class Agent:
         self.tokens_used = 0
         self.approval_mode = cfg.get("approval_mode", "ask")  # ask|write|yolo
         self.auto_approve = cfg.get("auto_approve", False)
+        # --- execution modes ---
+        self.modes = ModeEngine(cfg.get("mode", "auto"))
         self.hooks = HookEngine(cfg.get("hooks", {}))
         self.rules = RuleEngine(cfg.get("stream_rules", []))
         self.veritas = Veritas(cfg.get("veritas", {}))
@@ -196,6 +199,8 @@ class Agent:
         sys_prompt = self.load_skill(skill) or (
             "Kamu agent produktif. Pakai tool bila perlu, jawab final pakai bahasa "
             "Indonesia padat. Setiap tool call kamu catat.")
+        if hasattr(self, "modes") and self.modes:
+            sys_prompt = self.modes.apply_to_prompt(sys_prompt)
         self.hooks.fire("session_start", agent=self, task=task)
         self.memory = [{"role": "user", "content": task}]
         trace = []

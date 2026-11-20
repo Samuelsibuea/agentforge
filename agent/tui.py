@@ -502,8 +502,11 @@ class TUI:
         return out
 
     def _bottom_bar_frag(self):
+        curr_mode = getattr(getattr(self.agent, "modes", None), "current_mode", "auto").upper()
         return [
             ("class:foot-bar", f" Screen: [{self.active_screen.upper()}] "),
+            ("class:foot-dim", "│"),
+            ("class:foot-bar", f" Mode: [{curr_mode}] "),
             ("class:foot-dim", "│"),
             ("class:foot-ok", " Veritas: ON "),
             ("class:foot-dim", "│"),
@@ -552,6 +555,14 @@ class TUI:
             return
         if cmd == "/clear":
             self.live_logs = []
+            return
+        if cmd.startswith("/mode"):
+            parts = cmd.split()
+            if len(parts) > 1 and hasattr(self.agent, "modes"):
+                ok, msg = self.agent.modes.set_mode(parts[1])
+                self._add_log("Mode", msg, "cyan" if ok else "amber")
+            elif hasattr(self.agent, "modes"):
+                self._add_log("Mode", self.agent.modes.list_modes(), "cyan")
             return
         if cmd == "/help":
             with self._lock:
